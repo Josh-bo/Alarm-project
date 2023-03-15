@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alarm</title>
+    <link rel="stylesheet" href="bootstrap-5.2.2-dist/css/bootstrap.css">
+</head>
+<body class="bg-info">
+    <style>
+        input{
+            width: 30px;
+        }
+    </style>
+
+    <div class="container">
+        
+        <div class="mt-5 pt-5 text-center">
+            <div><b id="timeDisp" class="fs-1"></b></div><br>
+
+            <input type="text" name="" id="hr">
+            <input type="text" name="" id="mr">
+            <input type="text" name="" id="sr">
+            <select name="" id="ch">
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select><br>
+
+            <button class="btn btn-success my-2" onclick="setAlarm()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+                    <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/>
+                </svg>
+            </button>
+            <button class="btn btn-danger my-2" onclick="stopAlarm()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+                  </svg>
+            </button>
+        </div>
+    </div>
+    <audio src="/cough.mp3" id="snd"></audio>
+    <script>
+        const showct = () => {
+            let currentDate = new Date;
+            let hours = currentDate.getHours();
+            let minutes = currentDate.getMinutes();
+            let seconds = currentDate.getSeconds();
+            let timeChanging = (currentDate.getHours()) < 12 ? 'AM' : 'PM';
+            timeDisp.innerHTML = `
+            ${hours} : ${minutes} : ${seconds} ${timeChanging}
+            `
+            if(hr.value == hours && mr.value == minutes  && sr.value == seconds){
+                snd.play()  
+            }
+        }
+
+        let origTime = setInterval(showct, 1000)
+        
+        const setAlarm = () => {
+            let myDay = new Date;
+            let myh = myDay.getHours();
+            let mym = myDay.getMinutes();
+            let mys = myDay.getSeconds();
+
+
+            if(hr.value == myh && mr.value == mym  && sr.value == mys){
+                clearInterval(setAlarm)
+                snd.play()  
+             }
+        }
+
+        const stopAlarm = () => {
+            snd.pause()
+        }
+    </script>
+</body>
+</html>
